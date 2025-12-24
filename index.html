@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ka">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ტესტების პლატფორმა სტუდენტებისთვის">
+  <title>ტესტების პლატფორმა</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="index.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1 class="app-title">ტესტების პლატფორმა</h1>
+      <nav class="app-nav">
+        <button id="home-btn" class="nav-btn"><i class="fas fa-home"></i> მთავარი</button>
+        <button id="stats-btn" class="nav-btn"><i class="fas fa-chart-bar"></i> სტატისტიკა</button>
+      </nav>
+    </header>
+
+    <main class="app-main">
+      <!-- Welcome Screen -->
+      <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-card">
+          <h2 class="welcome-heading">მოგესალმებით ტესტების პლატფორმაზე</h2>
+          <p id="paragraph" class="welcome-text">ტესტი მათემატიკაში. ნუგზარ ჯუმუშაძე. შეკითხვა: 30. დრო - 1სთ.</p>
+          <div id="choice-div" class="choice-buttons">
+            <button id="create-test-btn" class="action-btn primary">
+              <i class="fas fa-edit"></i> ტესტის შედგენა
+            </button>
+            <button id="take-test-btn" class="action-btn secondary">
+              <i class="fas fa-play"></i> ტესტის გავლა
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test List Screen -->
+      <div id="test-list-div" class="hide test-list-container">
+        <h2 class="section-title">ხელმისაწვდომი ტესტები</h2>
+        <div class="search-container">
+          <input type="text" id="test-search" placeholder="ძებნა ტესტებში...">
+          <button id="search-btn" class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <div id="test-list" class="test-list">
+          <!-- Test list will be populated here -->
+        </div>
+      </div>
+
+      <!-- Test Taking Interface -->
+      <div id="test-interface" class="hide test-interface">
+        <div class="test-header">
+          <h2 id="test-title" class="test-title">ტესტის სათაური</h2>
+          <div class="test-info">
+            <span id="timer" class="timer">00:60:00</span>
+            <span id="question-counter" class="question-counter">1</span>
+          </div>
+        </div>
+
+        <div class="question-container">
+          <p id="question-text" class="question-text">კითხვის ტექსტი აქ გამოჩნდება...</p>
+          <div class="image-container">
+            <img id="question-image" src="" alt="Question image" class="question-image hide">
+          </div>
+        </div>
+
+        <div class="answer-options-container">
+          <div class="answer-options">
+            <button id="answer-btn-1" class="answer-btn">
+              <span id="answer-text-1" class="answer-text">პასუხის ვარიანტი 1</span>
+            </button>
+            <button id="answer-btn-2" class="answer-btn">
+              <span id="answer-text-2" class="answer-text">პასუხის ვარიანტი 2</span>
+            </button>
+            <button id="answer-btn-3" class="answer-btn">
+              <span id="answer-text-3" class="answer-text">პასუხის ვარიანტი 3</span>
+            </button>
+            <button id="answer-btn-4" class="answer-btn">
+              <span id="answer-text-4" class="answer-text">პასუხის ვარიანტი 4</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="test-controls">
+          <div class="navigation-buttons">
+            <button id="prev-btn" class="nav-btn">
+              <i class="fas fa-step-backward"></i> წინა
+            </button>
+            <button id="skip-btn" class="nav-btn skip-btn">
+              <i class="fas fa-forward"></i> გამოტოვება
+            </button>
+            <button id="next-btn" class="nav-btn primary">
+              შემდეგი <i class="fas fa-step-forward"></i>
+            </button>
+            <button id="finish-btn" class="nav-btn finish-btn hide">
+              <i class="fas fa-flag-checkered"></i> დასრულება
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Creation Interface -->
+      <div id="create-test-div" class="hide test-creation">
+        <form id="create-test-form" class="test-form" onsubmit="return false;">
+          <div class="question-editor">
+            <div class="test-header">
+              <div class="test-progress">
+                შეკითხვა: <span id="create-question-number">1</span>
+              </div>
+            </div>
+
+            <div class="points-selector">
+              <button id="point-btn-05" class="point-btn" data-points="0.5">0.5</button>
+              <button id="point-btn-1" class="point-btn active" data-points="1">1</button>
+              <button id="point-btn-15" class="point-btn" data-points="1.5">1.5</button>
+              <button id="point-btn-2" class="point-btn" data-points="2">2</button>
+              <button id="custom-points-btn" class="point-btn custom"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <div class="question-type-selector">
+              <button id="text-question-btn" class="question-type-btn active">
+                <i class="fas fa-font"></i> ტექსტური შეკითხვა
+              </button>
+              <button id="image-question-btn" class="question-type-btn">
+                <i class="fas fa-image"></i> სურათიანი შეკითხვა
+              </button>
+            </div>
+
+            <div id="text-question-container" class="question-input-container">
+              <textarea id="question-text-input" class="question-text-input" placeholder="შეიყვანეთ კითხვის ტექსტი..."
+                required></textarea>
+            </div>
+
+            <div id="image-question-container" class="question-input-container hide">
+              <div class="image-upload-container">
+                <img src="https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png" id="create-add-img"
+                  class="question-image">
+                <label for="create-img-input" class="img-upload-btn">
+                  <i class="fas fa-image"></i> სურათის ატვირთვა
+                </label>
+                <input type="file" accept="image/*" id="create-img-input" class="hide">
+                <button id="remove-img-btn" class="img-remove-btn hide">
+                  <i class="fas fa-times"></i> სურათის წაშლა
+                </button>
+              </div>
+            </div>
+
+            <div class="answer-options-container">
+              <div class="answer-options">
+                <button id="create-btn-1" class="answer-btn">
+                  <input id="create-btn-input-1" class="answer-input" placeholder="1">
+                </button>
+                <button id="create-btn-2" class="answer-btn">
+                  <input id="create-btn-input-2" class="answer-input" placeholder="2">
+                </button>
+                <button id="create-btn-3" class="answer-btn">
+                  <input id="create-btn-input-3" class="answer-input" placeholder="3">
+                </button>
+                <button id="create-btn-4" class="answer-btn">
+                  <input id="create-btn-input-4" class="answer-input" placeholder="4">
+                </button>
+              </div>
+            </div>
+
+            <div class="test-controls">
+              <button id="create-star-btn" type="button" class="control-btn star-btn">
+                <i class="fas fa-check"></i> სწორი პასუხის არჩევა
+              </button>
+              <div class="navigation-buttons">
+                <button id="create-before-btn" class="nav-btn">
+                  <i class="fas fa-step-backward"></i> წინა
+                </button>
+                <button id="create-next-btn" class="nav-btn primary">
+                  <span>შემდეგი</span> <i class="fas fa-step-forward"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button id="save-test-btn" class="save-btn">
+            <i class="fas fa-save"></i> ტესტის შენახვა
+          </button>
+        </form>
+      </div>
+
+      <!-- Test Statistics Screen -->
+      <div id="test-stats-div" class="hide test-stats">
+        <h2 class="section-title">ტესტის შედეგები</h2>
+        <div id="stats-container" class="stats-container">
+          <div class="stats-card">
+            <h3 id="stats-test-title" class="stats-test-title">ტესტის სათაური</h3>
+            <div class="stats-info">
+              <p><span class="stats-label">მონაწილე:</span> <span id="stats-user-name">-</span></p>
+              <p><span class="stats-label">ქულა:</span> <span id="stats-score">0</span>/30</p>
+              <p><span class="stats-label">პროცენტი:</span> <span id="stats-percentage">0%</span></p>
+              <p><span class="stats-label">დრო:</span> <span id="stats-time">00:00:00</span></p>
+            </div>
+            <div class="stats-chart-container">
+              <canvas id="stats-chart"></canvas>
+            </div>
+            <button id="stats-close-btn" class="stats-close-btn">
+              <i class="fas fa-times"></i> დახურვა
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Name Input Screen -->
+      <div id="name-input-screen" class="hide name-input-screen">
+        <div class="name-input-card">
+          <h2 class="name-input-title">შეიყვანეთ თქვენი სახელი</h2>
+          <input id="name-input" type="text" placeholder="სახელი" required>
+          <button id="start-btn" class="start-btn">
+            <i class="fas fa-play"></i> დაწყება
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Test Info Modal -->
+    <div id="test-info-modal" class="modal hide">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>ტესტის ინფორმაცია</h3>
+          <button id="close-modal-btn" class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="modal-test-title">ტესტის სათაური</label>
+            <input id="modal-test-title" type="text" placeholder="შეიყვანეთ ტესტის სათაური" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="modal-valid-from">ხელმისაწვდომია (დან):</label>
+              <input type="datetime-local" id="modal-valid-from" required>
+            </div>
+            <div class="form-group">
+              <label for="modal-valid-to">ხელმისაწვდომია (მდე):</label>
+              <input type="datetime-local" id="modal-valid-to" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="cancel-save-btn" class="btn secondary">გაუქმება</button>
+          <button id="confirm-save-btn" class="btn primary">შენახვა</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="app-footer">
+      <p>&copy; 2023 ტესტების პლატფორმა. ყველა უფლება დაცულია.</p>
+    </footer>
+  </div>
+
+  <script src="render.js"></script>
+</body>
+
+</html>
